@@ -1,0 +1,1 @@
+A central green square with rounded corners containing white and black text 'Uber Eats'. Attached to the top right corner of the green square is a red discount tag with a pink percentage symbol (%). The discount tag vibrates slightly, causing small pink sparkles to appear intermittently near it, creating a dynamic yet subtle animation effect.

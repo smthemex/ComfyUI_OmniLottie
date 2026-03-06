@@ -1,0 +1,1 @@
+A small black dot at the center of the frame. The dot gradually expands into a thick, light gray ring with a darker gray section, forming an incomplete circular shape. This ring continues to expand and transform into a fully filled dark gray circle with a thin black border around it. Finally, the dark gray circle fills with black and reveals a white 'X' shape in the center.
