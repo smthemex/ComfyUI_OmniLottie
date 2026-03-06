@@ -19,10 +19,30 @@
 
 
 # ComfyUI_OmniLottie
-OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens
+[OmniLottie](https://github.com/OpenVGLab/OmniLottie):  Generating Vector Animations via Parameterized Lottie Tokens
 
-# Coming soon 
+# Update
+* 已更新插件，连入视频或者图片开启图片或者视频生成模式，注意图片模式要最好加入描述提示词，有用记得给官方项目打星。  
+* The node has been updated to enable image or video generation mode when connecting to videos or images. It is recommended to add descriptive prompts to the image mode,Remember to star the official project if it is useful.
 
+# 1. Installation
+
+In the ./ComfyUI/custom_nodes directory, run the following:   
+```
+git clone https://github.com/smthemex/ComfyUI_OmniLottie.git
+```
+
+# 2. Requirements  
+```
+pip install -r requirements.txt
+```
+
+# 3.Model
+* merge model  from [OmniLottie](https://huggingface.co/smthem/OmniLottie-merge)  #  模型地址,针对官方的模型加载流程做了少许改动，目前使用的模型是qwen底模和 OmniLottie合并后的单体模型，没梯子就去我云盘拉取； 
+```
+--  ComfyUI/models/diffusion_models/
+    |--Lottie_weight.safetensors
+```
 # Example
 ![](https://github.com/smthemex/ComfyUI_OmniLottie/blob/main/example_workflows/example.png)
 

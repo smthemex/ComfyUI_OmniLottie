@@ -1,0 +1,1 @@
+A single blue speech bubble icon centered. Initially, the speech bubble appears partially filled with light blue, then gradually fills completely with solid blue. Inside the speech bubble, three small white dots appear, animate by moving slightly back and forth horizontally, and remain visible throughout the sequence.

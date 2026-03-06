@@ -1,0 +1,1 @@
+A black location pin icon with a blue circular area at its center, containing a white ship silhouette. The pin initially appears stationary, then it rises slightly with a subtle drop shadow effect under it, creating an illusion of elevation. After rising, the pin gently descends back to its original position, returning to a stable state without the shadow effect.

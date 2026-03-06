@@ -1,0 +1,16 @@
+[project]
+name = "omnilottie"
+description = "OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens"
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["# Core dependencies", "transformers # ==4.51.3", "safetensors #==0.7.0", "# Data processing", "numpy>=1.24.1,<2.3.0", "pandas #==2.3.3", "Pillow>=10.1.0,<12.0", "datasets #==3.5.0", "# Vision and video", "decord #==0.6.0", "opencv-python #==4.12.0.88", "qwen-vl-utils #==0.0.11", "accelerate", "# Hugging Face", "huggingface-hub>=0.28.1", "# Additional dependencies for compatibility", "#pydantic>=2.0,<2.12", "fsspec>=2023.1.0,<=2024.12.0", "# Web interface", "#gradio==5.37.0", "# System utilities", "psutil==7.2.1"]
+
+[project.urls]
+Repository = "https://github.com/smthemex/ComfyUI_OmniLottie"
+#  Used by Comfy Registry https://registry.comfy.org
+
+[tool.comfy]
+PublisherId = "smthemex"
+DisplayName = "ComfyUI_OmniLottie"
+Icon = ""
+includes = []
