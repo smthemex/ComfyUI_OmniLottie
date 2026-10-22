@@ -17,6 +17,8 @@
 <!-- <a href='https://github.com/OpenVGLab/OmniLottie'><img src='https://img.shields.io/badge/Training-Code-blue?logo=github'></a> -->
 </div>
 
+# Update
+* 改用comfyUI的源码，摆脱transformer的版本限制，避免OOM
 
 # ComfyUI_OmniLottie
 [OmniLottie](https://github.com/OpenVGLab/OmniLottie):  Generating Vector Animations via Parameterized Lottie Tokens
@@ -40,7 +42,7 @@ pip install -r requirements.txt
 # 3.Model
 * merge model  from [OmniLottie](https://huggingface.co/smthem/OmniLottie-merge)  #  模型地址,针对官方的模型加载流程做了少许改动，目前使用的模型是qwen底模和 OmniLottie合并后的单体模型，没梯子就去我云盘拉取； 
 ```
---  ComfyUI/models/diffusion_models/
+--  ComfyUI/models/text_encoders/
     |--Lottie_weight.safetensors
 ```
 # Example

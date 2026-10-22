@@ -1,18 +1,18 @@
 {
-  "id": "5aa8790b-6550-47aa-80bf-204fff13fc4c",
+  "id": "9a0c0003-d944-4128-a58f-cab0dc7b2202",
   "revision": 0,
-  "last_node_id": 27,
-  "last_link_id": 24,
+  "last_node_id": 9,
+  "last_link_id": 12,
   "nodes": [
     {
       "id": 1,
       "type": "OmniLottie_SM_Model",
       "pos": [
-        20792.490083172834,
-        -813.462402376419
+        21420.702227888858,
+        -445.45462588729913
       ],
       "size": [
-        265.522848783723,
+        270,
         106
       ],
       "flags": {},
@@ -24,7 +24,7 @@
           "name": "model",
           "type": "MODEL",
           "links": [
-            7
+            10
           ]
         }
       ],
@@ -34,105 +34,34 @@
       "widgets_values": [
         "Lottie_weight.safetensors",
         1500,
-        5556
-      ]
-    },
-    {
-      "id": 26,
-      "type": "GetVideoComponents",
-      "pos": [
-        20910.061887743017,
-        -599.25905645991
+        4096
       ],
-      "size": [
-        140,
-        66
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 4,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 22
-        }
-      ],
-      "outputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "links": []
-        },
-        {
-          "name": "audio",
-          "type": "AUDIO",
-          "links": null
-        },
-        {
-          "name": "fps",
-          "type": "FLOAT",
-          "links": null
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "GetVideoComponents"
+      "widgets_values_named": {
+        "ckpt": "Lottie_weight.safetensors",
+        "pix_len": 1500,
+        "text_len": 4096
       }
     },
     {
-      "id": 25,
-      "type": "LoadVideo",
-      "pos": [
-        20483.837091953577,
-        -677.1614876231079
-      ],
-      "size": [
-        374,
-        341.02576633391266
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 4,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VIDEO",
-          "type": "VIDEO",
-          "links": [
-            22
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadVideo"
-      },
-      "widgets_values": [
-        "2df42378085ec6b493b87355d1e03bdd.mp4",
-        "image"
-      ]
-    },
-    {
-      "id": 27,
+      "id": 3,
       "type": "LoadImage",
       "pos": [
-        20913.767160920575,
-        -438.0684052572032
+        21411.51260653368,
+        -285.2388565652773
       ],
       "size": [
         270,
         314
       ],
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "inputs": [],
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [
-            24
-          ]
+          "links": []
         },
         {
           "name": "MASK",
@@ -144,35 +73,65 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "c8c58d6389305d78dba647da3778185b.png",
+        "2be9b8482af53529ef11c7ca0ed45918.png",
         "image"
-      ]
+      ],
+      "widgets_values_named": {
+        "image": "2be9b8482af53529ef11c7ca0ed45918.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 7,
+      "type": "MarkdownNote",
+      "pos": [
+        21815.67048392154,
+        -80.64648578338594
+      ],
+      "size": [
+        381.9469130590187,
+        103.83712626073077
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "- 快速出图、省时间\t num_candidates=4 + stop_on_eos=开\n- 追求质量、不在意时间\t num_candidates=8 + stop_on_eos=关\n- 只要能出、最快\t num_candidates=1 + max_retries=4"
+      ],
+      "widgets_values_named": {
+        "text": "- 快速出图、省时间\t num_candidates=4 + stop_on_eos=开\n- 追求质量、不在意时间\t num_candidates=8 + stop_on_eos=关\n- 只要能出、最快\t num_candidates=1 + max_retries=4"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
     },
     {
       "id": 8,
       "type": "OmniLottie_SM_KSampler",
       "pos": [
-        21087.042623917416,
-        -826.0669668969763
+        21801.742480794885,
+        -479.93014603424774
       ],
       "size": [
-        427.6769347915215,
-        226.86290729765432
+        400,
+        324
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 7
+          "link": 10
         },
         {
           "name": "images",
           "shape": 7,
           "type": "IMAGE",
-          "link": 24
+          "link": null
         }
       ],
       "outputs": [
@@ -180,93 +139,81 @@
           "name": "path",
           "type": "STRING",
           "links": [
-            8
+            12
           ]
         },
         {
           "name": "html",
           "type": "STRING",
-          "links": [
-            17
-          ]
+          "links": null
         }
       ],
       "properties": {
         "Node name for S&R": "OmniLottie_SM_KSampler"
       },
       "widgets_values": [
-        "A sequence of three frames featuring an animated emoji face with a surprised expression. The face has a bright yellow circular shape, an orange hair outline at the top, black eyebrows raised upwards, and black eyes depicted as vertical lines. The mouth is an open black oval, emphasizing surprise. Throughout the sequence, the face remains centered, with subtle changes in the eye and eyebrow positions suggesting movement and animation. The overall design is minimalist and cartoonish, maintaining consistent proportions and colors across frames.",
+        "a light blue piggy bank with a darker blue outline, with a single light blue coin with a dark blue yen symbol appears above the piggy bank, then starts descending towards the piggy bank's opening",
+        234821795,
+        "randomize",
+        1,
+        4,
+        false,
         0.9,
         0.25,
-        5
-      ]
-    },
-    {
-      "id": 19,
-      "type": "PreviewAny",
-      "pos": [
-        21256.853886435954,
-        -543.3036100089876
+        5,
+        1.01
       ],
-      "size": [
-        330.44432202024836,
-        139.57925149225844
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source",
-          "type": "*",
-          "link": 17
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewAny"
-      },
-      "widgets_values": [
-        null,
-        null,
-        null
-      ]
+      "widgets_values_named": {
+        "prompt": "a light blue piggy bank with a darker blue outline, with a single light blue coin with a dark blue yen symbol appears above the piggy bank, then starts descending towards the piggy bank's opening",
+        "seed": 234821795,
+        "control_after_generate": "randomize",
+        "num_candidates": 1,
+        "max_retries": 4,
+        "stop_on_eos": false,
+        "temperature": 0.9,
+        "top_p": 0.25,
+        "top_k": 5,
+        "repetition_penalty": 1.01
+      }
     },
     {
       "id": 9,
       "type": "PreviewAny",
       "pos": [
-        21282.332555856374,
-        -326.0297026832723
+        22312.351818472922,
+        -376.23854754870655
       ],
       "size": [
-        306.80496359830795,
-        112
+        210,
+        122
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [
         {
           "name": "source",
           "type": "*",
-          "link": 8
+          "link": 12
         }
       ],
-      "outputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
       "properties": {
         "Node name for S&R": "PreviewAny"
       },
-      "widgets_values": [
-        null,
-        null,
-        null
-      ]
+      "widgets_values": [],
+      "widgets_values_named": {}
     }
   ],
   "links": [
     [
-      7,
+      10,
       1,
       0,
       8,
@@ -274,50 +221,25 @@
       "MODEL"
     ],
     [
-      8,
+      12,
       8,
       0,
       9,
       0,
       "STRING"
-    ],
-    [
-      17,
-      8,
-      1,
-      19,
-      0,
-      "STRING"
-    ],
-    [
-      22,
-      25,
-      0,
-      26,
-      0,
-      "VIDEO"
-    ],
-    [
-      24,
-      27,
-      0,
-      8,
-      1,
-      "IMAGE"
     ]
   ],
   "groups": [],
   "config": {},
   "extra": {
-    "workflowRendererVersion": "LG",
     "ds": {
-      "scale": 1.0152559799478125,
+      "scale": 1.2630766080183438,
       "offset": [
-        -20445.545070532356,
-        963.0028120473679
+        -21200.893113371265,
+        661.0887844495406
       ]
     },
-    "frontendVersion": "1.39.19",
+    "frontendVersion": "1.57.1",
     "VHS_latentpreview": false,
     "VHS_latentpreviewrate": 0,
     "VHS_MetadataImage": true,

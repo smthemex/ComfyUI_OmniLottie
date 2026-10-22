@@ -10,10 +10,9 @@ import base64
 import threading
 import time
 from PIL import Image as PILImage
-from decord import VideoReader, cpu
 
-from .decoder import LottieDecoder
-from transformers import AutoProcessor
+
+
 
 from .lottie.objects.lottie_tokenize import LottieTensor
 from .lottie.objects.lottie_param import (
@@ -136,6 +135,7 @@ def save_lottie_html(animation_data, file_path, height=600):
 
 
 def load_model_once():
+    from .decoder import LottieDecoder  # lazy: heavy transformers/accelerate stack, not needed by the node path
     global model, processor, device
 
     if model is not None:
@@ -156,6 +156,7 @@ def load_model_once():
 
     model = model.to(device).eval()
 
+    from transformers import AutoProcessor  # lazy: drags accelerate via transformers internals
     processor = AutoProcessor.from_pretrained(
         "Qwen/Qwen2.5-VL-3B-Instruct",
         padding_side="left"
@@ -222,6 +223,7 @@ def load_frames_from_video(video_path, num_frames=8, max_size=336):
 
     else:
         try:
+            from decord import VideoReader, cpu  # lazy: heavy dep, not needed by the node path
             vr = VideoReader(video_path, ctx=cpu(0))
             total_frames = len(vr)
 
