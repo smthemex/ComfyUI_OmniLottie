@@ -1,29 +1,17 @@
-# Core dependencies
-transformers # ==4.51.3 
-safetensors #==0.7.0
+# ComfyUI_OmniLottie — requirements after the comfy TE-core refactor.
+#
+# The node path (OmniLottie_node.py + omnilottie_te.py + lottie_detok.py) runs on
+# ComfyUI's own text-encoder core, so the old wrapper stack is no longer needed:
+# removed: pandas, datasets, decord, opencv-python, qwen-vl-utils, accelerate,
+#          huggingface-hub, fsspec, psutil, safetensors (all provided by
+#          ComfyUI itself or only used by the legacy inference.py/app.py path).
+#
+# torch / numpy / Pillow / safetensors are installed by ComfyUI already and are
+# NOT re-listed here to avoid version conflicts.
 
-# Data processing
-numpy>=1.24.1,<2.3.0  
-pandas #==2.3.3
-Pillow>=10.1.0,<12.0 
-datasets #==3.5.0
+# tokenizer only (AutoTokenizer); modeling runs on the comfy core
+transformers
 
-# Vision and video
-decord #==0.6.0
-opencv-python #==4.12.0.88
-qwen-vl-utils #==0.0.11
-
+# transformers 5.x hard-imports accelerate internally (verified via AutoTokenizer
+# chain); ComfyUI installs it anyway, listed here for standalone installs
 accelerate
-
-# Hugging Face
-huggingface-hub>=0.28.1 
-
-# Additional dependencies for compatibility
-#pydantic>=2.0,<2.12  
-fsspec>=2023.1.0,<=2024.12.0 
-
-# Web interface
-#gradio==5.37.0
-
-# System utilities
-psutil==7.2.1
