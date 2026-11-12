@@ -129,7 +129,7 @@ def _find_span(input_ids: torch.Tensor, pad_token: int) -> tuple:
 
 
 def generate_candidates(wrapper: OmniLottieWrapper, prompt: str, images=None,
-                        temperature=0.9, top_p=0.25, top_k=5,
+                        temperature=0.9, top_p=0.9, top_k=50,
                         repetition_penalty=1.01, num_candidates=1, seed=0,
                         max_retries=4, stop_on_eos=False):
     """
@@ -171,8 +171,15 @@ def generate_candidates(wrapper: OmniLottieWrapper, prompt: str, images=None,
     for i in range(num_candidates):
         base_seed = seed + i * 1009
         for attempt in range(max_retries):
+            # comfy's TransformerBlock does `output = x` then
+            # `torch.add(residual, x, out=output)`, so layer 0 writes its result
+            # straight back into the tensor it was handed -- and Llama2_.forward
+            # hands it our `embeds`. Reusing the same `embeds` across candidates
+            # (and across retries!) therefore feeds every sample after the first
+            # one a corrupted conditioning. Hand each call its own copy.
+            sample_embeds = embeds.clone()
             ids = te.generate(
-                embeds=embeds,
+                embeds=sample_embeds,
                 position_ids=position_ids,
                 do_sample=do_sample,
                 max_length=wrapper.pix_len,
@@ -234,6 +241,31 @@ def _normalize_candidate(ids):
             return ids[:i + 1]
     print(f"[OmniLottie] candidate: {len(ids)} tokens, {n_cmd} commands, no terminator")
     return ids
+
+
+def _decode_with_tail_trim(ids, decode_fn, step=8, max_trim=400):
+    """
+    Decode a token stream, dropping an incomplete trailing object if needed.
+
+    The model regularly runs into `pix_len` without emitting '/end' or EOS, so
+    the stream can stop in the middle of an object and the detokenizer raises
+    (e.g. "'Transform' object has no attribute 'anchor'"). Only the tail is
+    broken in that case -- the animation up to the last complete object is
+    fine -- so retry with a progressively shorter tail.
+
+    Returns (lottie_json, trimmed_tokens). Raises the original error when even
+    trimming does not help.
+    """
+    try:
+        return decode_fn(ids, verbose=False), 0
+    except Exception as first_err:
+        n = len(ids)
+        for cut in range(step, min(max_trim, n - 1) + 1, step):
+            try:
+                return decode_fn(ids[:n - cut], verbose=False), cut
+            except Exception:
+                continue
+        raise first_err
 
 
 def _score_lottie(lottie_json, has_eos):
@@ -325,9 +357,12 @@ class OmniLottie_SM_KSampler(io.ComfyNode):
                                          "selection for the remaining slots)"),
                 io.Float.Input("temperature", default=0.9, min=0.0, max=1.0, step=0.01,
                                display_mode=io.NumberDisplay.number),
-                io.Float.Input("top_p", default=0.25, min=0.01, max=1.0, step=0.01,
-                               display_mode=io.NumberDisplay.number),
-                io.Int.Input("top_k", default=5, min=1, max=100, step=1,
+                io.Float.Input("top_p", default=0.9, min=0.01, max=1.0, step=0.01,
+                               display_mode=io.NumberDisplay.number,
+                               tooltip="Below ~0.5 the nucleus collapses to a single token and the "
+                                       "sampler becomes greedy: the seed stops mattering and every "
+                                       "candidate comes out identical"),
+                io.Int.Input("top_k", default=50, min=1, max=100, step=1,
                              display_mode=io.NumberDisplay.number),
                 io.Float.Input("repetition_penalty", default=1.01, min=1.0, max=2.0, step=0.01,
                                display_mode=io.NumberDisplay.number),
@@ -372,7 +407,10 @@ class OmniLottie_SM_KSampler(io.ComfyNode):
         errors = []
         for ci, ids in enumerate(candidates):
             try:
-                lj = tokens_to_lottie_json(ids, verbose=False)
+                lj, trimmed = _decode_with_tail_trim(ids, tokens_to_lottie_json)
+                if trimmed:
+                    print(f"[OmniLottie] candidate {ci}: stream was cut mid-object at pix_len, "
+                          f"dropped the last {trimmed} tokens to decode")
             except Exception as e:
                 # single-line log: full traceback only when NOTHING decodes
                 print(f"[OmniLottie] candidate {ci}: decode failed "
