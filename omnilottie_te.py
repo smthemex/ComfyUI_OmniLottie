@@ -268,6 +268,12 @@ def load_omnilottie_model(checkpoint_path: str, pix_len: int = 1500, text_len: i
 
     te = OmniLottieTE(dtype=storage_dtype, device="cpu", operations=comfy.ops.manual_cast)
     missing, unexpected = te.load_state_dict(sd, strict=False)
+    # comfy's decode loop writes through `out=`; without this the node only runs
+    # inside ComfyUI's inference_mode and aborts when driven from a script/API
+    # ("add(): functions with out=... arguments don't support automatic
+    # differentiation"). Inference-only model, so freezing is always correct.
+    te.requires_grad_(False)
+    te.eval()
     del sd
 
     # keep genuinely-absent weights visible; ignore tied/unexpected buffer noise
